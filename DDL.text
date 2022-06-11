@@ -10,10 +10,12 @@ CREATE DATABASE "Database_Aplication"
 "user" it's a reserved word in postgres, so i used client
 
 CREATE TABLE client (
-    id SERIAL PRIMARY KEY,
+    id INTEGER PRIMARY KEY,
     name varchar(50) NOT NULL,
     email varchar(50) NOT NULL,
-    password text NOT NULL
+    password text NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 
@@ -23,6 +25,8 @@ CREATE TABLE product (
     title varchar(120) NOT NULL,
     price money NOT NULL,
     available_quantity int NOT NULL
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 
@@ -35,6 +39,8 @@ CREATE TABLE request (
     product_id varchar(20) NOT NULL,
     FOREIGN KEY (user_id)  REFERENCES client(id),
     FOREIGN KEY (product_id) REFERENCES product(id)
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 
@@ -42,4 +48,6 @@ CREATE TABLE request (
 CREATE TABLE category (
     id varchar(20) PRIMARY KEY,
     name varchar(70) NOT NULL
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );

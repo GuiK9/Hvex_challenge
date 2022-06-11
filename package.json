@@ -1,0 +1,31 @@
+{
+  "name": "hvex_challenge",
+  "version": "1.0.0",
+  "description": "challenge proposed by hvex for hiring",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GuiK9/Hvex_challenge.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GuiK9/Hvex_challenge/issues"
+  },
+  "homepage": "https://github.com/GuiK9/Hvex_challenge#readme",
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "pg": "^8.7.3",
+    "pg-native": "^3.0.0",
+    "sequelize": "^6.17.0",
+    "sqlite3": "^5.0.8"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  }
+}
