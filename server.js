@@ -6,13 +6,15 @@ require("dotenv").config()
 
 
 
-(async () => { await database.sync({ force: true }) })
+database.sync().then(() => { console.log("DB connected") }).catch((err) => { console.log(err) })
 
 const app = express()
 
 app.use("/", routes)
 
-
+app.listen(process.env.PORT_SERVER, () => {
+    console.log("running")
+})
 /* (async () => {
     const database = require('./src/db')
     const Client = await require('./src/tables/client')
