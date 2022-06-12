@@ -20,10 +20,11 @@
   "homepage": "https://github.com/GuiK9/Hvex_challenge#readme",
   "dependencies": {
     "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "joi": "^17.6.0",
+    "jsonwebtoken": "^8.5.1",
     "pg": "^8.7.3",
-    "pg-native": "^3.0.0",
-    "sequelize": "^6.17.0",
-    "sqlite3": "^5.0.8"
+    "sequelize": "^6.17.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.16"
