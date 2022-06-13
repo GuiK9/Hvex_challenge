@@ -23,10 +23,7 @@ const register = async (req, res) => {
 
         try {
 
-            const clientModel = await client.create({ name, email, password } = dataValidated.value).then((a)=>{
-                console.log(a)
-            })
-
+            const clientModel = await client.create({ name, email, password } = dataValidated.value)
 
             await clientModel.save((err) => {
                 if (err) {
@@ -47,7 +44,8 @@ const login = async (req, res) => {
 
     const body = req.body
     const { error } = loginJoiSchema(body)
-    if (error) { res.status(400).send(error.message) 
+    if (error) {
+        res.status(400).send(error.message)
     } else {
 
         var passHash = crypto.createHash(process.env.CODEALGDB).update(body.password).digest("hex")
@@ -63,7 +61,7 @@ const login = async (req, res) => {
 
             const token = jwt.sign(JSON.stringify(clientModel[0].dataValues), process.env.PRIVATEKEYJWT, { algorithm: process.env.CODEALGJWT })
 
-            const tokenObj = {token}
+            const tokenObj = { token }
 
             res.send(JSON.stringify(tokenObj))
         } catch (err) {
@@ -73,7 +71,27 @@ const login = async (req, res) => {
 
 }
 
+const categoryMiddleware = async (req, res) => {
+    axios.get('https://api.mercadolibre.com/sites/MLB/categories').then((resApi) => {
 
+
+        const categories = resApi.data
+        const categoriesFiltred = []
+
+        categories.forEach(e => {
+            if (e.id === process.env.CATEGORY1 || e.id === process.env.CATEGORY2 || e.id === process.env.CATEGORY3 || e.id === process.env.CATEGORY4) {
+                categoriesFiltred.push(e)
+            }
+        })
+
+        try {
+            res.send(categoriesFiltred)
+        } catch (err) {
+            res.status(500).send(err.message)
+        }
+
+    })
+}
 
 
 module.exports = { register, login, categoryMiddleware }
