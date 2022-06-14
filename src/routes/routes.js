@@ -13,16 +13,9 @@ router.post("/login", middlewares.login)
 
 router.get("/categoria", middlewares.categoryMiddleware)
 
-/*
-
-Câmeras e Acessórios
-Celulares e Telefones
-Eletrônicos, Áudio e Vídeo
-Games
-
-
 router.get("/produtos:category_id", middlewares.products)
 
+/*
 router.get("/produto:product_id", middlewares.products)
 
 router.get("/pedidos", middlewares.products)

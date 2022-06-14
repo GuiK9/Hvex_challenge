@@ -26,16 +26,11 @@ const register = async (req, res) => {
 
             const clientModel = await client.create({ name, email, password } = dataValidated.value)
 
-            await clientModel.save((err) => {
-                if (err) {
-                    res.send(err.message)
-                }
-                else {
-                    res.send(clientModel)
-                }
-            })
+            await clientModel.save()
+            res.send({message: 'user was created'})
+
         } catch (err) {
-            res.send(err)
+            res.status(500).send(err.message)
         }
     }
 
@@ -74,23 +69,27 @@ const login = async (req, res) => {
 
 const categoryMiddleware = async (req, res) => {
 
-        const categories = await Category.findAll()
-        const categoriesFiltred = []
+    const categories = await Category.findAll()
+    const categoriesFiltred = []
 
-        categories.forEach(e => {
-            if (e.id === process.env.CATEGORY1 || e.id === process.env.CATEGORY2 || e.id === process.env.CATEGORY3 || e.id === process.env.CATEGORY4) {
-                categoriesFiltred.push(e)
-            }
-        })
-
-        try {
-            res.send(categoriesFiltred)
-        } catch (err) {
-            res.status(500).send(err.message)
+    categories.forEach(e => {
+        if (e.id === process.env.CATEGORY1 || e.id === process.env.CATEGORY2 || e.id === process.env.CATEGORY3 || e.id === process.env.CATEGORY4) {
+            categoriesFiltred.push(e)
         }
+    })
 
-    
+    try {
+        res.send(categoriesFiltred)
+    } catch (err) {
+        res.status(500).send(err.message)
+    }
 }
 
 
-module.exports = { register, login, categoryMiddleware }
+const products = async (req, res) => {
+    const header = req
+    console.log(header)
+}
+
+
+module.exports = { register, login, categoryMiddleware, products }
