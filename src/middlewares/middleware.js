@@ -6,6 +6,7 @@ const client = require('../models/client')
 const product = require('../models/product')
 const category = require('../models/category')
 const request = require('../models/request')
+const Category = require('../models/category')
 
 
 const register = async (req, res) => {
@@ -72,10 +73,8 @@ const login = async (req, res) => {
 }
 
 const categoryMiddleware = async (req, res) => {
-    axios.get('https://api.mercadolibre.com/sites/MLB/categories').then((resApi) => {
 
-
-        const categories = resApi.data
+        const categories = await Category.findAll()
         const categoriesFiltred = []
 
         categories.forEach(e => {
@@ -90,7 +89,7 @@ const categoryMiddleware = async (req, res) => {
             res.status(500).send(err.message)
         }
 
-    })
+    
 }
 
 
