@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 const database = require('../db')
 
-const Client = database.define('client', {
+const User = database.define('user', {
     id: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
@@ -21,4 +21,4 @@ const Client = database.define('client', {
     }
 })
 
-module.exports = Client
+module.exports = User

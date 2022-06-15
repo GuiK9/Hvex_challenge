@@ -1,48 +1,83 @@
-CREATE DATABASE "Database_Aplication"
+CREATE DATABASE database_aplication
     WITH
     OWNER = postgres
     ENCODING = 'UTF8'
-    CONNECTION LIMIT = -1
-;
+    LC_COLLATE = 'pt_BR.UTF-8'
+    LC_CTYPE = 'pt_BR.UTF-8'
+    TABLESPACE = pg_default
+    CONNECTION LIMIT = -1;
 
 
 -----
-"user" it's a reserved word in postgres, so i used client
+CREATE TABLE IF NOT EXISTS public.categories
+(
+    id character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    name character varying(70) COLLATE pg_catalog."default" NOT NULL,
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL,
+    CONSTRAINT categories_pkey PRIMARY KEY (id)
+)
 
-CREATE TABLE client (
-    id INTEGER PRIMARY KEY,
-    name varchar(50) NOT NULL,
-    email varchar(50) NOT NULL,
-    password text NOT NULL,
-);
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.categories
+    OWNER to postgres;
+
+-----
+CREATE TABLE IF NOT EXISTS public.orders
+(
+    id uuid NOT NULL,
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL,
+    client_id uuid,
+    product_id character varying(20) COLLATE pg_catalog."default",
+    CONSTRAINT orders_pkey PRIMARY KEY (id),
+    CONSTRAINT orders_client_id_fkey FOREIGN KEY (client_id)
+        REFERENCES public.users (id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE SET NULL,
+    CONSTRAINT orders_product_id_fkey FOREIGN KEY (product_id)
+        REFERENCES public.products (id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE SET NULL
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.orders
+    OWNER to postgres;
 
 
 -----
-CREATE TABLE product (
-    id varchar(20) PRIMARY KEY,
-    title varchar(120) NOT NULL,
-    price money NOT NULL,
-    available_quantity int NOT NULL
-    
-);
+CREATE TABLE IF NOT EXISTS public.products
+(
+    id character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    title character varying(120) COLLATE pg_catalog."default" NOT NULL,
+    price real NOT NULL,
+    available_quantity integer NOT NULL,
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL,
+    CONSTRAINT products_pkey PRIMARY KEY (id)
+)
 
+TABLESPACE pg_default;
 
------
-"order" it's a reserved word in postgres, so i used request
-
-CREATE TABLE request (
-    id SERIAL PRIMARY KEY,
-    user_id INT NOT NULL,
-    product_id varchar(20) NOT NULL,
-    FOREIGN KEY (user_id)  REFERENCES client(id),
-    FOREIGN KEY (product_id) REFERENCES product(id)
-    
-);
-
+ALTER TABLE IF EXISTS public.products
+    OWNER to postgres;
 
 -----
-CREATE TABLE category (
-    id varchar(20) PRIMARY KEY,
-    name varchar(70) NOT NULL
-    
-);
+CREATE TABLE IF NOT EXISTS public.users
+(
+    id uuid NOT NULL,
+    name character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    email character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    password text COLLATE pg_catalog."default" NOT NULL,
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL,
+    CONSTRAINT users_pkey PRIMARY KEY (id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.users
+    OWNER to postgres;

@@ -1,9 +1,9 @@
 const Sequelize = require('sequelize')
 const database = require('../db')
-const Client = require('./client')
+const Client = require('./users')
 const Product = require('./product')
 
-const Request = database.define('request', {
+const Order = database.define('order', {
     id: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
@@ -11,14 +11,14 @@ const Request = database.define('request', {
     }
 })
 
-Request.belongsTo(Client, {
+Order.belongsTo(Client, {
     constraint: true,
     foreignKey: "client_id",
 })
 
-Request.belongsTo(Product, {
+Order.belongsTo(Product, {
     constraint: true,
     foreignKey: "product_id",
 })
 
-module.exports = Request
+module.exports = Order

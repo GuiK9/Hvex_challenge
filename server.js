@@ -5,7 +5,7 @@ const database = require('./src/db')
 require("dotenv").config()
 
 
-database.sync().then(() => { console.log("DB connected") }).catch((err) => { console.log(err) })
+database.sync({force: true}).then(() => { console.log("DB connected") }).catch((err) => { console.log(err) })
 
 const app = express()
 

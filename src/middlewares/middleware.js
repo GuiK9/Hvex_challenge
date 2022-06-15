@@ -2,10 +2,10 @@ const crypto = require('crypto')
 const axios = require('axios')
 const { registerJoiSchema, loginJoiSchema } = require('../controlers/authControler.js')
 const jwt = require('jsonwebtoken')
-const client = require('../models/client')
+const client = require('../models/users')
 const product = require('../models/product')
 const category = require('../models/category')
-const request = require('../models/request')
+const request = require('../models/order')
 const Category = require('../models/category')
 
 
