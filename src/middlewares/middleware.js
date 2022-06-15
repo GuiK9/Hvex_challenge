@@ -69,66 +69,131 @@ const login = async (req, res) => {
 
 const categoryMiddleware = async (req, res) => {
 
+    const body = req.body
+
+    try {
+        const jsonJwt = jwt.verify(body.token, process.env.PRIVATEKEYJWT)
+        const checkedAccount = await user.findByPk(jsonJwt.id)
+
+        if (checkedAccount === null) {
+            const err = { message: "you are not registered" }
+            throw err
+        }
+
         const categories = await Category.findAll()
 
         try {
             res.send(categories)
         } catch (err) {
             res.status(500).send(err.message)
+        }
+    } catch (err) {
+        res.status(500).send(err.message)
     }
+
+
 }
 
 
 const products = async (req, res) => {
 
-    const categoryId = req.params.category_id
+    const body = req.body
 
-    const products = await axios.get(`https://api.mercadolibre.com/sites/MLB/search?category=${categoryId}`)
-
-    const productsFiltred = []
-
-    for (let i = 0; i < products.data.results.length; i++) {
-        const e = products.data.results[i]
-
-        productsFiltred.push(
-            {
-                id: e.id,
-                title: e.title,
-                price: e.price,
-                available_quantity: e.available_quantity
-            }
-        )
-    }
 
     try {
-        res.send(productsFiltred)
+        const jsonJwt = jwt.verify(body.token, process.env.PRIVATEKEYJWT)
+        const checkedAccount = await user.findByPk(jsonJwt.id)
+
+        if (checkedAccount === null) {
+            const err = { message: "you are not registered" }
+            throw err
+        }
+
+        const categoryId = req.params.category_id
+
+        const products = await axios.get(`https://api.mercadolibre.com/sites/MLB/search?category=${categoryId}`)
+
+        const productsFiltred = []
+
+        for (let i = 0; i < products.data.results.length; i++) {
+            const e = products.data.results[i]
+
+            productsFiltred.push(
+                {
+                    id: e.id,
+                    title: e.title,
+                    price: e.price,
+                    available_quantity: e.available_quantity
+                }
+            )
+        }
+
+        try {
+            res.send(productsFiltred)
+        } catch (err) {
+            res.status(500).send(err.message)
+        }
+
     } catch (err) {
         res.status(500).send(err.message)
     }
+
+
+
+
 }
 
 const oneProduct = async (req, res) => {
 
-    const idProduct = req.params.product_id
-
-    const productDb = await product.findByPk(idProduct)
-
-    const polishedProduct = {
-        id: productDb.id,
-        title: productDb.title,
-        price: productDb.price,
-        available_quantity: productDb.available_quantity
-    }
+    const body = req.body
 
     try {
-        res.send(polishedProduct)
+        const jsonJwt = jwt.verify(body.token, process.env.PRIVATEKEYJWT)
+        const checkedAccount = await user.findByPk(jsonJwt.id)
+
+        if (checkedAccount === null) {
+            const err = { message: "you are not registered" }
+            throw err
+        }
+
+        const idProduct = req.params.product_id
+
+        const productDb = await product.findByPk(idProduct)
+
+        const polishedProduct = {
+            id: productDb.id,
+            title: productDb.title,
+            price: productDb.price,
+            available_quantity: productDb.available_quantity
+        }
+
+        try {
+            res.send(polishedProduct)
+        } catch (err) {
+            res.status(500).send(err.message)
+        }
+
     } catch (err) {
         res.status(500).send(err.message)
     }
+
+
 }
 
 const orders = async (req, res) => {
 
+    const body = req.body
+    try {
+        const jsonJwt = jwt.verify(body.token, process.env.PRIVATEKEYJWT)
+        const checkedAccount = await user.findByPk(jsonJwt.id)
+
+        if (checkedAccount === null) {
+            const err = { message: "you are not registered" }
+            throw err
+        }
+    } catch (err) {
+        res.status(500).send(err.message)
+    }
 }
 
 
