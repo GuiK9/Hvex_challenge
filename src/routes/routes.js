@@ -13,7 +13,7 @@ router.post("/login", middlewares.login)
 
 router.get("/categoria", middlewares.categoryMiddleware)
 
-router.get("/produtos:category_id", middlewares.products)
+router.get("/produtos/:category_id", middlewares.products)
 
 /*
 router.get("/produto:product_id", middlewares.products)

@@ -27,7 +27,7 @@ const register = async (req, res) => {
             const clientModel = await client.create({ name, email, password } = dataValidated.value)
 
             await clientModel.save()
-            res.send({message: 'user was created'})
+            res.send({ message: 'user was created' })
 
         } catch (err) {
             res.status(500).send(err.message)
@@ -70,16 +70,9 @@ const login = async (req, res) => {
 const categoryMiddleware = async (req, res) => {
 
     const categories = await Category.findAll()
-    const categoriesFiltred = []
-
-    categories.forEach(e => {
-        if (e.id === process.env.CATEGORY1 || e.id === process.env.CATEGORY2 || e.id === process.env.CATEGORY3 || e.id === process.env.CATEGORY4) {
-            categoriesFiltred.push(e)
-        }
-    })
 
     try {
-        res.send(categoriesFiltred)
+        res.send(categories)
     } catch (err) {
         res.status(500).send(err.message)
     }
@@ -87,8 +80,31 @@ const categoryMiddleware = async (req, res) => {
 
 
 const products = async (req, res) => {
-    const header = req
-    console.log(header)
+    
+    const categoryId = req.params.category_id
+
+    const products = await axios.get(`https://api.mercadolibre.com/sites/MLB/search?category=${categoryId}`)
+
+    const productsFiltred = []
+
+    for (let i = 0; i < products.data.results.length; i++) {
+        const e = products.data.results[i]
+
+        productsFiltred.push(
+            {
+                id: e.id,
+                title: e.title,
+                price: e.price,
+                available_quantity: e.available_quantity
+            }
+        )
+    }
+
+    try {
+        res.send(productsFiltred)
+    } catch (err) {
+        res.status(500).send(err.message)
+    }
 }
 
 
