@@ -2,7 +2,7 @@ const crypto = require('crypto')
 const axios = require('axios')
 const { registerJoiSchema, loginJoiSchema } = require('../controlers/authControler.js')
 const jwt = require('jsonwebtoken')
-const client = require('../models/users')
+const user = require('../models/users')
 const product = require('../models/product')
 const category = require('../models/category')
 const request = require('../models/order')
@@ -24,9 +24,9 @@ const register = async (req, res) => {
 
         try {
 
-            const clientModel = await client.create({ name, email, password } = dataValidated.value)
+            const userModel = await user.create({ name, email, password } = dataValidated.value)
 
-            await clientModel.save()
+            await userModel.save()
             res.send({ message: 'user was created' })
 
         } catch (err) {
@@ -48,14 +48,14 @@ const login = async (req, res) => {
         body.password = passHash
 
         try {
-            const clientModel = await client.findAll({
+            const userModel = await user.findAll({
                 where: {
                     email: body.email,
                     password: body.password
                 }
             })
 
-            const token = jwt.sign(JSON.stringify(clientModel[0].dataValues), process.env.PRIVATEKEYJWT, { algorithm: process.env.CODEALGJWT })
+            const token = jwt.sign(JSON.stringify(userModel[0].dataValues), process.env.PRIVATEKEYJWT, { algorithm: process.env.CODEALGJWT })
 
             const tokenObj = { token }
 
@@ -69,12 +69,12 @@ const login = async (req, res) => {
 
 const categoryMiddleware = async (req, res) => {
 
-    const categories = await Category.findAll()
+        const categories = await Category.findAll()
 
-    try {
-        res.send(categories)
-    } catch (err) {
-        res.status(500).send(err.message)
+        try {
+            res.send(categories)
+        } catch (err) {
+            res.status(500).send(err.message)
     }
 }
 
@@ -114,9 +114,9 @@ const oneProduct = async (req, res) => {
     const productDb = await product.findByPk(idProduct)
 
     const polishedProduct = {
-        id: productDb.id, 
-        title: productDb.title, 
-        price: productDb.price, 
+        id: productDb.id,
+        title: productDb.title,
+        price: productDb.price,
         available_quantity: productDb.available_quantity
     }
 
@@ -127,5 +127,9 @@ const oneProduct = async (req, res) => {
     }
 }
 
+const orders = async (req, res) => {
 
-module.exports = { register, login, categoryMiddleware, products, oneProduct }
+}
+
+
+module.exports = { register, login, categoryMiddleware, products, oneProduct, orders }
