@@ -80,7 +80,7 @@ const categoryMiddleware = async (req, res) => {
 
 
 const products = async (req, res) => {
-    
+
     const categoryId = req.params.category_id
 
     const products = await axios.get(`https://api.mercadolibre.com/sites/MLB/search?category=${categoryId}`)
@@ -107,5 +107,25 @@ const products = async (req, res) => {
     }
 }
 
+const oneProduct = async (req, res) => {
 
-module.exports = { register, login, categoryMiddleware, products }
+    const idProduct = req.params.product_id
+
+    const productDb = await product.findByPk(idProduct)
+
+    const polishedProduct = {
+        id: productDb.id, 
+        title: productDb.title, 
+        price: productDb.price, 
+        available_quantity: productDb.available_quantity
+    }
+
+    try {
+        res.send(polishedProduct)
+    } catch (err) {
+        res.status(500).send(err.message)
+    }
+}
+
+
+module.exports = { register, login, categoryMiddleware, products, oneProduct }

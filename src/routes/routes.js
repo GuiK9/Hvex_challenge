@@ -15,9 +15,8 @@ router.get("/categoria", middlewares.categoryMiddleware)
 
 router.get("/produtos/:category_id", middlewares.products)
 
+router.get("/produto/:product_id", middlewares.oneProduct)
 /*
-router.get("/produto:product_id", middlewares.products)
-
 router.get("/pedidos", middlewares.products)
  */
 //cada usuário deve ter uma tabela de pedidos pré-pronta para ser testada
