@@ -195,8 +195,8 @@ const orders = async (req, res) => {
         }
 
         try {
-            const Products = await product.findAll()
-            res.send({name, Products})
+            const dbProducts = await product.findAll()
+            res.send({name, dbProducts})
         } catch (err) {
             res.status(500).send(err.message)
         }
