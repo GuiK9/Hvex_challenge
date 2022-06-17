@@ -187,10 +187,20 @@ const orders = async (req, res) => {
         const jsonJwt = jwt.verify(body.token, process.env.PRIVATEKEYJWT)
         const checkedAccount = await user.findByPk(jsonJwt.id)
 
+        const name = checkedAccount.dataValues.name
+
         if (checkedAccount === null) {
             const err = { message: "you are not registered" }
             throw err
         }
+
+        try {
+            const Products = await product.findAll()
+            res.send({name, Products})
+        } catch (err) {
+            res.status(500).send(err.message)
+        }
+
     } catch (err) {
         res.status(500).send(err.message)
     }
