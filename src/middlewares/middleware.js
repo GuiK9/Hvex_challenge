@@ -4,8 +4,6 @@ const { registerJoiSchema, loginJoiSchema } = require('../controlers/authControl
 const jwt = require('jsonwebtoken')
 const user = require('../models/users')
 const product = require('../models/product')
-const category = require('../models/category')
-const request = require('../models/order')
 const Category = require('../models/category')
 
 
