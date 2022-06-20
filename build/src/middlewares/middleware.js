@@ -1,12 +1,15 @@
+// All server middlewares
+// Each middleware is used in a request
+
 const crypto = require('crypto')
 const axios = require('axios')
-const { registerJoiSchema, loginJoiSchema } = require('../controlers/authControler.js')
+const { registerJoiSchema, loginJoiSchema } = require('../controlers/authController.js')
 const jwt = require('jsonwebtoken')
 const user = require('../models/users')
 const product = require('../models/product')
 const Category = require('../models/category')
 
-
+// Cadastro route
 const register = async (req, res) => {
 
     const body = req.body
@@ -33,7 +36,7 @@ const register = async (req, res) => {
     }
 
 }
-
+// Login route
 const login = async (req, res) => {
 
     const body = req.body
@@ -65,6 +68,7 @@ const login = async (req, res) => {
 
 }
 
+// Categoria route
 const categoryMiddleware = async (req, res) => {
 
     const body = req.body
@@ -92,7 +96,7 @@ const categoryMiddleware = async (req, res) => {
 
 }
 
-
+// Produtos route
 const products = async (req, res) => {
 
     const body = req.body
@@ -109,6 +113,7 @@ const products = async (req, res) => {
 
         const categoryId = req.params.category_id
 
+        // As there is no relationship between category and product in the proposed database model, I had to make a direct request to the api here
         const products = await axios.get(`https://api.mercadolibre.com/sites/MLB/search?category=${categoryId}`)
 
         const productsFiltred = []
@@ -141,6 +146,7 @@ const products = async (req, res) => {
 
 }
 
+// Produto route
 const oneProduct = async (req, res) => {
 
     const body = req.body
@@ -178,6 +184,7 @@ const oneProduct = async (req, res) => {
 
 }
 
+// Pedidos route
 const orders = async (req, res) => {
 
     const body = req.body

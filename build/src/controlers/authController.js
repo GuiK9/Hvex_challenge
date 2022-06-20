@@ -1,3 +1,4 @@
+//Authentication schema controller
 const joi = require('joi')
 
 const registerJoiSchema = (data) => {

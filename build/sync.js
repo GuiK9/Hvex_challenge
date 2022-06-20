@@ -1,8 +1,13 @@
+// Synchronization archive of database, category and product tables
+// This code will save some products and categories as requested in the test documentation
+
 const product = require('./src/models/product')
 const category = require('./src/models/category')
 const axios = require('axios')
 
 function syncDB() {
+
+    // Sync categories
 
     axios.get('https://api.mercadolibre.com/sites/MLB/categories').then(async (resApi) => {
 
@@ -31,6 +36,8 @@ function syncDB() {
             }
 
         }
+
+        // Sync products
 
         for (let i = 0; i < categoriesFiltred.length; i++) {
             const e = categoriesFiltred[i]
